@@ -108,11 +108,11 @@ Core scope for hackathon demo. Must demonstrate the end-to-end value prop: a fin
 
 > Full KYC/AML/Travel Rule integration is post-MVP. MVP shows status and stubs the workflow.
 
-- [ ] Compliance status banner per organization (Verified / Pending / Action Required)
-- [ ] KYC status card with checklist (identity verified, address verified, business verified)
-- [ ] AML status indicator (pass / review / flagged)
-- [ ] "Complete Verification" CTA linking to stub flow
-- [ ] MiCA readiness badge (EU-market indicator)
+- [x] Compliance status banner per organization (Verified / Pending / Action Required)
+- [x] KYC status card with checklist (identity verified, address verified, business verified)
+- [x] AML status indicator (pass / review / flagged)
+- [x] "Complete Verification" CTA linking to stub flow
+- [x] MiCA readiness badge (EU-market indicator)
 
 ---
 

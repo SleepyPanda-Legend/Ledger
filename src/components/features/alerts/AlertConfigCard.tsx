@@ -81,8 +81,8 @@ export default function AlertConfigCard({ config }: AlertConfigCardProps) {
         >
           <span
             className={[
-              "absolute top-0.5 h-4 w-4 rounded-full bg-white shadow-sm transition-transform duration-200",
-              enabled ? "translate-x-4" : "translate-x-0.5",
+              "absolute top-0.5 h-4 w-4 rounded-full bg-white shadow-sm transition-all duration-200",
+              enabled ? "left-[18px]" : "left-0.5",
             ].join(" ")}
           />
         </button>
