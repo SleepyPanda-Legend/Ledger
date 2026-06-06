@@ -1,14 +1,13 @@
 import { auth } from "@/auth";
+import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
+import Sidebar from "@/components/features/dashboard/Sidebar";
+import DashboardHeader from "@/components/features/dashboard/DashboardHeader";
 
 /**
- * Dashboard layout — server component that gates all /dashboard/* routes.
- *
- * Auth is checked here as a second line of defence (middleware is the first).
- * Having both prevents edge cases where middleware is bypassed (e.g. direct
- * Server Action calls or mismatched matcher patterns).
- *
- * The full sidebar and header shell will be built in Epic 3 (Onboarding & Auth).
+ * Dashboard shell — server component that gates all /dashboard/* routes.
+ * Fetches session + org data once here so child pages don't repeat the lookup.
+ * Auth is double-checked here as a second line of defence after middleware.
  */
 export default async function DashboardLayout({
   children,
@@ -16,32 +15,24 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
+  if (!session?.user?.id) redirect("/login");
 
-  if (!session?.user) {
-    redirect("/login");
-  }
+  const membership = await db.organizationMember.findFirst({
+    where: { userId: session.user.id },
+    include: { organization: true },
+  });
+
+  // New users without an org get sent to onboarding
+  if (!membership && !children) redirect("/dashboard/onboarding");
+
+  const orgName = membership?.organization.name ?? "Ledger";
+  const userName = session.user.name ?? session.user.email ?? "User";
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
-      {/* Sidebar — Epic 3 */}
-      <aside className="hidden w-64 shrink-0 border-r border-border lg:flex lg:flex-col">
-        <div className="flex h-16 items-center border-b border-border px-6">
-          <span className="text-sm font-semibold tracking-tight text-foreground">
-            Ledger
-          </span>
-        </div>
-        {/* Nav items — Epic 3 */}
-      </aside>
-
-      {/* Main content area */}
+    <div className="flex h-screen overflow-hidden bg-[#f9f9f9]">
+      <Sidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
-        {/* Header — Epic 3 */}
-        <header className="flex h-16 shrink-0 items-center border-b border-border px-6">
-          <div className="ml-auto flex items-center gap-4">
-            {/* Alerts bell, user menu — Epic 3 & 7 */}
-          </div>
-        </header>
-
+        <DashboardHeader userName={userName} orgName={orgName} />
         <main className="flex-1 overflow-y-auto p-6">{children}</main>
       </div>
     </div>

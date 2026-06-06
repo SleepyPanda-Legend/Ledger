@@ -47,11 +47,11 @@ Core scope for hackathon demo. Must demonstrate the end-to-end value prop: a fin
 
 ### 3. Onboarding & Authentication
 
-- [ ] Sign-up flow (organization name, email, password)
-- [ ] Login flow with session management
-- [ ] Onboarding wizard: select stablecoin assets, connect environment (sandbox/live)
-- [ ] API key generation screen (display, copy, revoke)
-- [ ] Organization settings page (name, logo, members)
+- [x] Sign-up flow (organization name, email, password)
+- [x] Login flow with session management
+- [x] Onboarding wizard: select stablecoin assets, connect environment (sandbox/live)
+- [x] API key generation screen (display, copy, revoke)
+- [x] Organization settings page (name, logo, members)
 
 ---
 
