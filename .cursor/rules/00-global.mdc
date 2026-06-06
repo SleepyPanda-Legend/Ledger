@@ -15,7 +15,7 @@ Ledger is a B2B stablecoin infrastructure platform that enables banks, fintechs,
 
 - **Investigate thoroughly** before acting. Use all tools available: Grep, Glob, Read, Shell, Context7 MCP.
 - **Context7 MCP** must be used to fetch current library docs before referencing APIs, configs, or versions — training data may be stale.
-- **Check `README_PRD.md`** at session start and track implementation progress there.
+- **Check `README.md`** at session start and track implementation progress there.
 - If critical files or context are missing, ask the user before proceeding.
 - If cursor rules need updating due to a pivot or new direction, inform the user and update the rules immediately.
 - Prefer the **simplest, most elegant solution**. Complexity is a failure mode.
@@ -56,6 +56,6 @@ Ledger is a B2B stablecoin infrastructure platform that enables banks, fintechs,
 
 ## PRD Tracking
 
-- `README_PRD.md` is the source of truth for feature status.
+- `README.md` is the source of truth for feature status.
 - Mark features as `[ ]` (pending), `[~]` (in progress), or `[x]` (complete) as you build.
 - When a feature is complete, update the PRD before moving to the next task.
