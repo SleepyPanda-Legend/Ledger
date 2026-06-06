@@ -1,24 +1,25 @@
 import { PrismaClient } from "@prisma/client";
 
 /**
- * Singleton Prisma client instance.
+ * Prisma client singleton.
  *
- * In development, Next.js hot-reload would create a new PrismaClient on every
- * module re-evaluation, quickly exhausting the database connection pool.
- * We store the instance on the global object to survive hot-reloads.
+ * Production: stored at module scope — evaluated once per process lifetime.
  *
- * In production, module scope is sufficient — the singleton is created once.
+ * Development: NOT cached on globalThis. Turbopack hot-reloads re-evaluate
+ * this module on each change, which creates a fresh PrismaClient that picks
+ * up any schema changes from `prisma generate`. Caching the old client on
+ * globalThis would prevent the new model delegates (e.g. alertConfig) from
+ * ever being available until a full server restart.
+ * SQLite has no meaningful connection-pool limit, so fresh clients per
+ * hot-reload are safe. Postgres dev setups should restart the server after
+ * a migration regardless.
  */
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
 export const db =
-  globalForPrisma.prisma ??
-  new PrismaClient({
-    log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
-  });
-
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = db;
-}
+  process.env.NODE_ENV === "production"
+    ? (globalForPrisma.prisma ??
+        (globalForPrisma.prisma = new PrismaClient({ log: ["error"] })))
+    : new PrismaClient({ log: ["query", "error", "warn"] });
