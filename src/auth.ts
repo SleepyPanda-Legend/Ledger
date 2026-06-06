@@ -3,6 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 import { db } from "@/lib/db";
+import { authConfig } from "@/auth.config";
 
 /**
  * Zod schema for credentials login payload.
@@ -25,12 +26,9 @@ const credentialsSchema = z.object({
  *  - signIn / signOut → called from Server Actions
  */
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  ...authConfig,
   adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },
-  pages: {
-    signIn: "/login",
-    error: "/login",
-  },
   providers: [
     Credentials({
       name: "Credentials",
@@ -57,6 +55,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
+    // Preserve the `authorized` guard from authConfig for the middleware path
+    ...authConfig.callbacks,
     /**
      * Attaches user ID to the JWT so it's available in sessions
      * without an extra DB round-trip per request.

@@ -1,29 +1,18 @@
-import { auth } from "@/auth";
-import { NextResponse } from "next/server";
+import NextAuth from "next-auth";
+import { authConfig } from "@/auth.config";
 
 /**
  * Route protection middleware.
  *
- * All paths under /dashboard/* require an active session.
- * Unauthenticated requests are redirected to /login with a `callbackUrl`
- * so users land back where they intended after signing in.
+ * Uses only the Edge-compatible `authConfig` (no Prisma, no bcryptjs) to keep
+ * the Edge Function bundle well under Vercel's 1 MB limit. Authentication
+ * logic (redirect on unauthenticated dashboard access) lives in the
+ * `authorized` callback inside `authConfig`.
  *
- * The matcher deliberately excludes static assets and API routes to avoid
- * unnecessary auth checks on every resource request.
+ * The matcher deliberately excludes static assets and the Next.js build output
+ * to avoid running the middleware on every resource request.
  */
-export default auth((req) => {
-  const { nextUrl, auth: session } = req;
-  const isLoggedIn = !!session;
-  const isDashboard = nextUrl.pathname.startsWith("/dashboard");
-
-  if (isDashboard && !isLoggedIn) {
-    const loginUrl = new URL("/login", nextUrl.origin);
-    loginUrl.searchParams.set("callbackUrl", nextUrl.pathname);
-    return NextResponse.redirect(loginUrl);
-  }
-
-  return NextResponse.next();
-});
+export const { auth: middleware } = NextAuth(authConfig);
 
 export const config = {
   matcher: [
