@@ -120,11 +120,11 @@ Core scope for hackathon demo. Must demonstrate the end-to-end value prop: a fin
 
 > Advanced cohort analysis and export are post-MVP.
 
-- [ ] Summary metrics strip — total volume, transaction count, active wallets, avg. fee
-- [ ] Transaction volume chart — bar chart, daily/weekly/monthly toggle
-- [ ] Asset breakdown — pie/donut chart of USDC vs other assets
-- [ ] Top corridors table — most used sender/receiver country pairs
-- [ ] Date range filter (last 7d / 30d / 90d / custom)
+- [x] Summary metrics strip — total volume, transaction count, active wallets, avg. fee
+- [x] Transaction volume chart — bar chart, daily/weekly/monthly toggle
+- [x] Asset breakdown — pie/donut chart of USDC vs other assets
+- [x] Top corridors table — most used sender/receiver country pairs
+- [x] Date range filter (last 7d / 30d / 90d / custom)
 
 ---
 
