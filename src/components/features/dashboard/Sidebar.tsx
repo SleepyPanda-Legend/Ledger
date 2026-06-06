@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
+  Coins,
   TrendingUp,
   Route,
   Bell,
@@ -13,12 +14,13 @@ import {
 } from "lucide-react";
 
 const navItems = [
-  { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
-  { label: "FX Intelligence", href: "/dashboard/fx", icon: TrendingUp },
-  { label: "Smart Routing", href: "/dashboard/routing", icon: Route },
-  { label: "Alerts", href: "/dashboard/alerts", icon: Bell },
-  { label: "Compliance", href: "/dashboard/compliance", icon: ShieldCheck },
-  { label: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
+  { label: "Overview",        href: "/dashboard",            icon: LayoutDashboard },
+  { label: "Stablecoin SDK",  href: "/dashboard/sdk",        icon: Coins           },
+  { label: "FX Intelligence", href: "/dashboard/fx",         icon: TrendingUp      },
+  { label: "Smart Routing",   href: "/dashboard/routing",    icon: Route           },
+  { label: "Alerts",          href: "/dashboard/alerts",     icon: Bell            },
+  { label: "Compliance",      href: "/dashboard/compliance", icon: ShieldCheck     },
+  { label: "Analytics",       href: "/dashboard/analytics",  icon: BarChart3       },
 ] as const;
 
 /**

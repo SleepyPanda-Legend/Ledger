@@ -59,12 +59,12 @@ Core scope for hackathon demo. Must demonstrate the end-to-end value prop: a fin
 
 > Supports USDC at MVP. Other assets gated behind post-MVP.
 
-- [ ] Wallet connectivity UI (connect/disconnect wallet)
-- [ ] Wallet balance display (USDC balance with USD equivalent)
-- [ ] Send / Transfer flow (recipient address, amount, asset, network selection)
-- [ ] Transaction confirmation screen with fee estimate
-- [ ] Transaction status tracking (pending → confirmed → settled)
-- [ ] Transaction history table (filterable by date, status, asset)
+- [x] Wallet connectivity UI (connect/disconnect wallet)
+- [x] Wallet balance display (USDC balance with USD equivalent)
+- [x] Send / Transfer flow (recipient address, amount, asset, network selection)
+- [x] Transaction confirmation screen with fee estimate
+- [x] Transaction status tracking (pending → confirmed → settled)
+- [x] Transaction history table (filterable by date, status, asset)
 
 ---
 

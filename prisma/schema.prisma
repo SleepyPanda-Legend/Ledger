@@ -71,13 +71,15 @@ model VerificationToken {
 // ---------------------------------------------------------------------------
 
 model Organization {
-  id        String   @id @default(cuid())
-  name      String
-  slug      String   @unique
-  logo      String?
-  apiKey    String   @unique @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique
+  logo          String?
+  apiKey        String   @unique @default(cuid())
+  walletAddress String?
+  balance       Float    @default(10000) // Sandbox USDC balance
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   members      OrganizationMember[]
   transactions Transaction[]
