@@ -1,9 +1,10 @@
 // Ledger — Prisma schema
-// SQLite for local development; swap provider to "postgresql" for production.
-// Run: npx prisma migrate dev --name init
+// Uses PostgreSQL for both local development and production.
+// Local: set DATABASE_URL to a local Postgres instance or Neon/Supabase dev branch.
+// Run: npx prisma db push  (first time)  |  npx prisma migrate dev (ongoing)
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
