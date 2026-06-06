@@ -1,0 +1,81 @@
+---
+description: Next.js 16 App Router architecture, project structure, API design, security, and performance for Ledger
+globs: src/**/*,next.config.*,tsconfig.json
+alwaysApply: false
+---
+
+# Architecture & Structure
+
+## Stack (Verified via Context7 — June 2026)
+
+- **Next.js 16** (App Router, React Server Components, Server Actions)
+- **TypeScript 5** — `strict: true`, path aliases via `tsconfig.json`
+- **Tailwind CSS v4** — CSS-first config with `@theme` blocks, no `tailwind.config.ts`
+- **Zod** — runtime validation for all API inputs and external data
+- **React Query (TanStack Query v5)** — server state, caching, background refetching
+- **Zustand** — lightweight client-only UI state (modals, selections, ephemeral state)
+- **Prisma** — database ORM with typed queries
+
+## Project Structure
+
+```
+src/
+  app/
+    (marketing)/          # Public: landing, pricing, docs
+    (dashboard)/          # Auth-gated: analytics, routing, alerts, compliance
+      layout.tsx          # Shared dashboard shell
+    api/                  # Route handlers (POST/GET per resource)
+  components/
+    ui/                   # Primitive atoms: Button, Input, Card, Badge, Modal
+    features/             # Domain composites: FxWidget, RoutingCard, AlertFeed
+  lib/
+    utils/                # Pure helper functions
+    validators/           # Zod schemas (reusable across API + forms)
+    constants/            # App-wide constants and config
+  hooks/                  # Custom React hooks (use* naming)
+  types/                  # Shared TypeScript interfaces, enums, DTOs
+  services/               # External integrations: stablecoin SDK, FX API, compliance
+  stores/                 # Zustand stores (one file per domain)
+public/                   # Static assets
+```
+
+## React Server Components Rules
+
+- **Default to Server Components.** Add `"use client"` only when the component requires browser APIs, state, or event handlers.
+- Never fetch data inside Client Components — fetch in Server Components and pass as props.
+- Data mutations use **Server Actions** (not client-side fetch calls to `/api`).
+- Keep Server/Client boundary at the leaf level — don't push `"use client"` up the tree.
+- Use `loading.tsx` and `error.tsx` in every route segment.
+
+## API Route Design
+
+- All routes live under `src/app/api/[resource]/route.ts`.
+- Validate every request body and query param with a Zod schema before processing.
+- Return consistent shape: `{ data: T | null; error: string | null }`.
+- Use correct HTTP status codes. Never `200` with an error payload.
+- Log errors server-side; never leak stack traces to the client response.
+
+## Security
+
+- All secrets in environment variables only. `NEXT_PUBLIC_` prefix strictly for values safe to expose to browsers.
+- Validate and sanitize **all** user inputs server-side, regardless of client-side validation.
+- Rate-limit all public API routes (use middleware or edge config).
+- Auth guards via **Next.js Middleware** on `(dashboard)` route group — never rely on UI-only guards.
+- Never store sensitive values (private keys, API secrets) in client-accessible stores or `localStorage`.
+- Use HTTPS-only cookies for session tokens (`httpOnly`, `secure`, `sameSite: strict`).
+
+## Performance
+
+- Use `next/image` for all images: always provide `width`, `height`, `alt`, and `priority` for above-fold images.
+- Load fonts via `next/font` — never via CSS `@import` or `<link>` tags.
+- Lazy-load heavy dashboard panels with `dynamic(() => import(...), { loading: () => <Skeleton /> })`.
+- Prefer **streaming** with `Suspense` boundaries over blocking data fetches for dashboards.
+- Avoid prop-drilling through 3+ layers — lift to context or Zustand store.
+- Run `next build` and inspect bundle output before shipping features with new dependencies.
+
+## Code Organization Principles
+
+- Feature folder owns its components, hooks, and types — not scattered at root level.
+- Barrel exports (`index.ts`) per feature folder for clean imports.
+- Services are pure functions or class instances — no React inside `services/`.
+- Hooks encapsulate stateful logic only; business logic belongs in `lib/` or `services/`.

@@ -1,0 +1,61 @@
+---
+description: Global agent behavior, Ledger project vision, and universal coding standards — always applied
+alwaysApply: true
+---
+
+# Ledger — Global Standards
+
+## Project Vision
+
+Ledger is a B2B stablecoin infrastructure platform that enables banks, fintechs, remittance providers, and digital wallets to launch compliant stablecoin products in ~3 months instead of 18. Core pillars: Stablecoin SDK (USDC, USDT, EURC, PYUSD), FX Intelligence Engine (AI-powered volatility prediction), Smart Routing (optimal network/rate selection), Alert Engine (push/SMS/voice), Compliance API (KYC/AML/MiCA), and Analytics Hub.
+
+**Target users:** digital banks, neobanks, payment providers, remittance platforms, treasury software, enterprise fintechs.
+
+## Agent Behavior
+
+- **Investigate thoroughly** before acting. Use all tools available: Grep, Glob, Read, Shell, Context7 MCP.
+- **Context7 MCP** must be used to fetch current library docs before referencing APIs, configs, or versions — training data may be stale.
+- **Check `README_PRD.md`** at session start and track implementation progress there.
+- If critical files or context are missing, ask the user before proceeding.
+- If cursor rules need updating due to a pivot or new direction, inform the user and update the rules immediately.
+- Prefer the **simplest, most elegant solution**. Complexity is a failure mode.
+
+## File & Code Organization
+
+- **500 LOC hard limit per file.** Refactor and split when approaching it — never exceed it.
+- One concern per file: one component, one hook, one service, one utility module.
+- Never create files speculatively. Only create what is needed right now.
+- Group related files by feature, not by type (prefer `features/fx-engine/` over `hooks/useFx.ts` at root).
+
+## Commenting Standards (JSDoc3)
+
+- Comment the **why** and **how** — never the obvious *what*.
+- All exported functions, hooks, components, and types must have JSDoc3 `/** */` doc comments.
+- Use `//` for inline context on non-obvious logic only.
+- **Never delete useful comments.** Update them when the code they describe changes.
+- Banned: comments that merely restate the code (`// increment counter`, `// return result`).
+
+```ts
+/**
+ * Resolves the optimal stablecoin routing path for a given transfer.
+ * Uses real-time liquidity data to minimize slippage and fees.
+ *
+ * @param transfer - Normalized transfer request with source/destination assets
+ * @returns Ranked list of routing paths with estimated cost and settlement time
+ */
+```
+
+## Code Quality
+
+- **TypeScript strict mode** (`strict: true`). No `any` unless truly unavoidable — document why in a comment.
+- Explicit return types on all functions; no implicit `any` from inference on public APIs.
+- Error handling must be **explicit and intentional** — never swallow errors silently.
+- DRY: if logic is duplicated twice, extract it into a shared utility or hook.
+- Write self-documenting names. A clear name can eliminate a comment entirely.
+- No commented-out dead code in committed files.
+
+## PRD Tracking
+
+- `README_PRD.md` is the source of truth for feature status.
+- Mark features as `[ ]` (pending), `[~]` (in progress), or `[x]` (complete) as you build.
+- When a feature is complete, update the PRD before moving to the next task.

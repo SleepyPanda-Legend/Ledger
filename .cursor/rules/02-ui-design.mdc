@@ -1,0 +1,83 @@
+---
+description: Apple-grade UI/UX principles, Tailwind CSS v4 patterns, and design standards for Ledger
+globs: **/*.tsx,**/*.css
+alwaysApply: false
+---
+
+# UI & Design Standards
+
+## Philosophy — The Jony Ive / Steve Jobs Test
+
+Every screen must pass this filter: *Is every element here for a reason? Does removing anything make it worse?* If not, remove it. Ledger is a professional financial tool — restraint is sophistication.
+
+- **Less, but better.** One clear action per screen. No visual noise.
+- **Honesty of materials.** UI elements look and behave like what they are — no fake depth, no decorative gradients.
+- **Deference to content.** The interface recedes; data and actions take center stage.
+- **Consistency over creativity.** Use the design system. Invent nothing without necessity.
+
+## Typography
+
+- Primary typeface: **Inter** (via `next/font`) — mirrors SF Pro's neutrality and legibility.
+- Type scale: `text-xs` through `text-4xl` — never custom pixel sizes.
+- Line height: `leading-tight` for headings, `leading-relaxed` for body copy.
+- Weight: `font-normal` for body, `font-medium` for UI labels, `font-semibold` for headings. Never `font-black` in dashboards.
+- Letter spacing: `tracking-tight` on large headings only.
+- Never mix more than 2 font weights on a single screen.
+
+## Color System
+
+- **Background:** near-white (`#F9F9F9` or `white`) for light mode; deep neutral (`#0A0A0A`) for dark.
+- **Foreground:** near-black (`#111111`) — never pure `#000000`.
+- **Accent:** single brand color (blue-adjacent, e.g. `#0066FF`). Used sparingly — CTAs, active states, links only.
+- **Semantic colors:** green for success/positive delta, amber for warnings, red for errors. Never decorative.
+- **Borders:** `border-gray-200` (light) or `border-white/10` (dark). No heavy outlines.
+- Dark mode support required from day one — use Tailwind's `dark:` variant throughout.
+
+## Spacing & Layout
+
+- Base unit: `4px` (Tailwind's default scale — stick to it).
+- Generous whitespace is not waste — it is structure. Minimum `p-6` on cards, `gap-6` between sections.
+- Max content width: `max-w-7xl mx-auto` for dashboards; `max-w-3xl` for reading content.
+- 12-column grid inside dashboard panels; use `grid-cols-12` and explicit `col-span` values.
+- Consistent corner radius: `rounded-xl` for cards, `rounded-lg` for inputs/buttons, `rounded-full` for badges and avatars.
+
+## Components & Elevation
+
+- Cards use `bg-white dark:bg-neutral-900 rounded-xl shadow-sm border border-gray-100 dark:border-white/5`.
+- No harsh `box-shadow` — prefer `shadow-sm` or `shadow-md` maximum.
+- Subtle glass effect for floating panels: `bg-white/80 backdrop-blur-xl` (light) or `bg-black/60 backdrop-blur-xl` (dark).
+- Inputs: `border border-gray-200 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent`.
+- Buttons: filled (primary), outlined (secondary), ghost (tertiary). Never more than 2 button types on one screen.
+- Destructive actions use red — but always behind a confirmation step.
+
+## Motion & Animation
+
+- Motion must be **purposeful** — it communicates state change, not decoration.
+- Durations: `150ms` for micro-interactions (hover, focus), `250ms` for panel transitions, `350ms` max for page-level transitions.
+- Easing: `ease-out` for entering elements, `ease-in` for exiting. Never `linear` for UI animations.
+- Use `transition-all` sparingly — prefer specific properties (`transition-colors`, `transition-opacity`).
+- No bounce or spring effects in financial dashboards — they read as unprofessional.
+- Skeleton loaders instead of spinners for content that takes >300ms.
+
+## Data Display (Fintech-Specific)
+
+- Numeric values: always right-aligned in tables for scanability.
+- Currency: consistent decimal places per asset (e.g., USDC always 2dp, ETH always 6dp).
+- Positive deltas: green with `▲` prefix. Negative: red with `▼` prefix. Neutral: gray.
+- Charts: minimal axes, no grid clutter, tooltips on hover only.
+- Empty states: always show a purposeful message and a clear next action — never a blank area.
+
+## Accessibility
+
+- All interactive elements must have visible focus styles (`focus-visible:ring-2`).
+- Minimum contrast ratio: 4.5:1 for body text, 3:1 for large text (WCAG AA).
+- All images require descriptive `alt` text. Decorative images use `alt=""`.
+- Use semantic HTML: `<nav>`, `<main>`, `<section>`, `<article>`, `<button>` over `<div>` where possible.
+- Form inputs must have associated `<label>` elements — never rely on placeholder text alone.
+
+## Tailwind v4 Usage
+
+- Config lives in CSS via `@theme {}` blocks — no `tailwind.config.ts`.
+- Custom design tokens defined in `@theme` and used as CSS variables throughout.
+- No arbitrary values (`w-[347px]`) unless genuinely unavoidable — use the scale.
+- Component variants via `data-*` attributes or explicit class composition — not inline style objects.
