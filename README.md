@@ -36,12 +36,12 @@ Core scope for hackathon demo. Must demonstrate the end-to-end value prop: a fin
 
 ### 2. Marketing / Landing Page
 
-- [ ] Hero section — headline, sub-headline, primary CTA ("Get API Access")
-- [ ] Feature highlights — 6 platform pillars with icons and one-liners
-- [ ] Social proof section — target customer logos / use cases
-- [ ] How it works — 3-step integration flow visual
-- [ ] CTA footer — demo request or sign-up prompt
-- [ ] Responsive layout (mobile + desktop)
+- [x] Hero section — headline, sub-headline, primary CTA ("Get API Access")
+- [x] Feature highlights — 6 platform pillars with icons and one-liners
+- [x] Social proof section — target customer logos / use cases
+- [x] How it works — 3-step integration flow visual
+- [x] CTA footer — demo request or sign-up prompt
+- [x] Responsive layout (mobile + desktop)
 
 ---
 

@@ -1,7 +1,10 @@
+import Navbar from "@/components/ui/Navbar";
+import Footer from "@/components/features/marketing/Footer";
+
 /**
- * Marketing layout — wraps all public-facing pages (landing, pricing, docs).
- * Intentionally lightweight: no auth checks, no heavy providers.
- * Navbar and footer are composed here so every marketing page inherits them.
+ * Marketing layout — wraps all public-facing pages.
+ * Navbar is fixed/floating; Footer anchors the page.
+ * No auth checks — this is the public surface of the product.
  */
 export default function MarketingLayout({
   children,
@@ -9,10 +12,10 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* Navbar will live here — Epic 2 */}
-      <main className="flex-1">{children}</main>
-      {/* Footer will live here — Epic 2 */}
-    </div>
+    <>
+      <Navbar />
+      <main>{children}</main>
+      <Footer />
+    </>
   );
 }
