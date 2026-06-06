@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Wallet, Loader2 } from "lucide-react";
+import { Wallet, Copy, Check } from "lucide-react";
 import { connectWalletAction } from "@/lib/actions/transactions";
 import { truncateAddress, ASSET_USD_PRICE } from "@/services/stablecoin";
 import Button from "@/components/ui/Button";
@@ -18,6 +18,14 @@ interface WalletCardProps {
 export default function WalletCard({ walletAddress: initialAddress, balance }: WalletCardProps) {
   const [address, setAddress] = useState(initialAddress);
   const [isPending, startTransition] = useTransition();
+  const [copied, setCopied] = useState(false);
+
+  async function copyAddress() {
+    if (!address) return;
+    await navigator.clipboard.writeText(address);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
 
   function connect() {
     startTransition(async () => {
@@ -51,10 +59,20 @@ export default function WalletCard({ walletAddress: initialAddress, balance }: W
 
       {address ? (
         <div className="flex flex-col gap-4">
-          {/* Address */}
+          {/* Address — full address copyable, truncated for display */}
           <div>
             <p className="mb-1 text-xs font-medium text-muted uppercase tracking-widest">Address</p>
-            <p className="font-mono text-sm text-foreground">{truncateAddress(address)}</p>
+            <div className="flex items-center gap-2">
+              <p className="font-mono text-sm text-foreground">{truncateAddress(address)}</p>
+              <button
+                onClick={copyAddress}
+                title="Copy full address"
+                className="flex items-center gap-1 rounded-md px-2 py-0.5 text-xs text-muted transition-colors hover:bg-foreground/5 hover:text-foreground"
+              >
+                {copied ? <Check size={12} className="text-success" /> : <Copy size={12} />}
+                {copied ? "Copied" : "Copy"}
+              </button>
+            </div>
           </div>
 
           {/* Balance */}
