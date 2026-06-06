@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+/**
+ * Ledger design tokens — Tailwind v4 CSS-first configuration.
+ * All custom values defined here as CSS variables, consumed via @theme.
+ * Follows Apple/Jony Ive aesthetic: restrained, purposeful, content-first.
+ */
+
+/* Raw colour primitives */
+:root {
+  --bg: #f9f9f9;
+  --bg-elevated: #ffffff;
+  --fg: #111111;
+  --fg-muted: #6b7280;
+  --fg-subtle: #9ca3af;
+  --border: #e5e7eb;
+  --border-subtle: #f3f4f6;
+  --accent: #0066ff;
+  --accent-hover: #0052cc;
+  --success: #16a34a;
+  --warning: #d97706;
+  --danger: #dc2626;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #141414;
+    --fg: #f0f0f0;
+    --fg-muted: #9ca3af;
+    --fg-subtle: #6b7280;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-subtle: rgba(255, 255, 255, 0.04);
+    --accent: #3b82f6;
+    --accent-hover: #60a5fa;
+  }
+}
+
+/**
+ * @theme block maps raw variables into Tailwind utility tokens.
+ * Use these via: bg-background, text-foreground, border-default, etc.
+ */
+@theme inline {
+  /* Typography */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  /* Colours surfaced as Tailwind utilities */
+  --color-background: var(--bg);
+  --color-elevated: var(--bg-elevated);
+  --color-foreground: var(--fg);
+  --color-muted: var(--fg-muted);
+  --color-subtle: var(--fg-subtle);
+  --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+}
+
+/* Base reset */
+html {
+  color-scheme: light dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+/* Smooth focus ring — visible only on keyboard nav */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}

@@ -8,10 +8,10 @@
 
 ## Stack
 
-- Next.js 16 (App Router) · TypeScript 5 · Tailwind CSS v4
-- TanStack Query v5 · Zustand · Prisma · Zod
-- Authentication: TBD (NextAuth / Clerk)
-- Database: TBD (PostgreSQL via Prisma)
+- Next.js 16.2.7 (App Router) · TypeScript 5 · Tailwind CSS v4
+- TanStack Query v5 · Zustand · Prisma v6 (SQLite dev / PostgreSQL prod) · Zod
+- Authentication: Auth.js v5 (next-auth@beta) with Credentials provider
+- Database: SQLite (dev) → PostgreSQL (prod)
 
 ---
 
@@ -23,14 +23,14 @@ Core scope for hackathon demo. Must demonstrate the end-to-end value prop: a fin
 
 ### 1. Foundation & Project Setup
 
-- [ ] Scaffold Next.js 16 project with TypeScript strict mode
-- [ ] Configure Tailwind CSS v4 with custom `@theme` design tokens
-- [ ] Set up folder structure (`src/app`, `src/components`, `src/lib`, `src/services`, `src/types`)
-- [ ] Configure ESLint, Prettier, and `tsconfig.json` path aliases
-- [ ] Set up environment variable schema (Zod-validated at boot)
-- [ ] Initialize Prisma with database schema (users, organizations, transactions)
-- [ ] Configure authentication (session management, protected routes via Middleware)
-- [ ] Set up base layout: root layout, dashboard shell layout, marketing layout
+- [x] Scaffold Next.js 16 project with TypeScript strict mode
+- [x] Configure Tailwind CSS v4 with custom `@theme` design tokens
+- [x] Set up folder structure (`src/app`, `src/components`, `src/lib`, `src/services`, `src/types`)
+- [x] Configure ESLint, Prettier, and `tsconfig.json` path aliases
+- [x] Set up environment variable schema (Zod-validated at boot)
+- [x] Initialize Prisma with database schema (users, organizations, transactions)
+- [x] Configure authentication (session management, protected routes via Middleware)
+- [x] Set up base layout: root layout, dashboard shell layout, marketing layout
 
 ---
 
