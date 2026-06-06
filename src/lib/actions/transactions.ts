@@ -111,6 +111,7 @@ export async function createTransactionAction(
 /**
  * Advances a transaction through the status lifecycle.
  * Called by the client on a timer to simulate on-chain confirmation.
+ * Creates a "tx_confirmed" alert when the transaction reaches "settled".
  */
 export async function advanceTransactionStatusAction(txId: string): Promise<void> {
   const current = await db.transaction.findUnique({ where: { id: txId } });
@@ -123,6 +124,20 @@ export async function advanceTransactionStatusAction(txId: string): Promise<void
   if (!next) return;
 
   await db.transaction.update({ where: { id: txId }, data: { status: next } });
+
+  // Fire a notification when the transaction fully settles
+  if (next === "settled") {
+    await db.alert.create({
+      data: {
+        organizationId: current.organizationId,
+        type: "tx_confirmed",
+        asset: current.asset,
+        message: `Transaction settled: ${current.amount.toLocaleString("en-US", { minimumFractionDigits: 2 })} ${current.asset} sent via ${current.network}.`,
+      },
+    });
+  }
+
   revalidatePath("/dashboard/sdk");
   revalidatePath("/dashboard");
+  revalidatePath("/dashboard", "layout");
 }

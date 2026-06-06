@@ -81,9 +81,10 @@ model Organization {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  members      OrganizationMember[]
-  transactions Transaction[]
-  alerts       Alert[]
+  members       OrganizationMember[]
+  transactions  Transaction[]
+  alerts        Alert[]
+  alertConfigs  AlertConfig[]
 }
 
 model OrganizationMember {
@@ -128,4 +129,23 @@ model Alert {
   createdAt      DateTime @default(now())
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+}
+
+/**
+ * Persisted alert configuration per asset pair / type.
+ * Enabled configs drive alert generation in the mock engine.
+ */
+model AlertConfig {
+  id             String   @id @default(cuid())
+  organizationId String
+  type           String   // rate_threshold | volatility_spike
+  asset          String   // e.g. "USDC/EUR"
+  threshold      Float?   // For rate_threshold: fire when rate drops below this
+  enabled        Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, type, asset])
 }

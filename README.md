@@ -72,11 +72,11 @@ Core scope for hackathon demo. Must demonstrate the end-to-end value prop: a fin
 
 > AI signals are mocked at MVP with realistic data shapes; real model is post-MVP.
 
-- [ ] Live rate display — USDC/USD, USDC/EUR, USDC/GBP (via public price feed)
-- [ ] Volatility indicator — low / medium / high signal badge per pair
-- [ ] AI recommendation card — "Good time to convert" / "Hold — high volatility window"
-- [ ] Rate history sparkline chart (7-day)
-- [ ] Manual refresh + auto-refresh every 30 seconds
+- [x] Live rate display — USDC/USD, USDC/EUR, USDC/GBP (via public price feed)
+- [x] Volatility indicator — low / medium / high signal badge per pair
+- [x] AI recommendation card — "Good time to convert" / "Hold — high volatility window"
+- [x] Rate history sparkline chart (7-day)
+- [x] Manual refresh + auto-refresh every 30 seconds
 
 ---
 
@@ -84,11 +84,11 @@ Core scope for hackathon demo. Must demonstrate the end-to-end value prop: a fin
 
 > Route selection logic is rule-based at MVP; ML optimization is post-MVP.
 
-- [ ] Routing comparison panel — show 2–3 paths with estimated fees, speed, and rate
-- [ ] Best route auto-selection with explanation ("Lowest fee", "Fastest", "Best rate")
-- [ ] Network selector (Ethereum, Polygon, Solana — stubbed at MVP)
-- [ ] Confirm route and execute transaction (linked to SDK flow in Epic 4)
-- [ ] Routing decision log per transaction in history
+- [x] Routing comparison panel — show 2–3 paths with estimated fees, speed, and rate
+- [x] Best route auto-selection with explanation ("Lowest fee", "Fastest", "Best rate")
+- [x] Network selector (Ethereum, Polygon, Solana — stubbed at MVP)
+- [x] Confirm route and execute transaction (linked to SDK flow in Epic 4)
+- [x] Routing decision log per transaction in history
 
 ---
 
@@ -96,11 +96,11 @@ Core scope for hackathon demo. Must demonstrate the end-to-end value prop: a fin
 
 > Push / SMS / voice alerts are post-MVP. In-app notifications are MVP.
 
-- [ ] Notification center (bell icon + dropdown panel in dashboard header)
-- [ ] Alert types: rate threshold crossed, transaction confirmed, volatility spike
-- [ ] Alert configuration screen — set thresholds per asset pair
-- [ ] Mark as read / dismiss / clear all
-- [ ] Unread badge count
+- [x] Notification center (bell icon + dropdown panel in dashboard header)
+- [x] Alert types: rate threshold crossed, transaction confirmed, volatility spike
+- [x] Alert configuration screen — set thresholds per asset pair
+- [x] Mark as read / dismiss / clear all
+- [x] Unread badge count
 
 ---
 

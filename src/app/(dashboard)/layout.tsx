@@ -6,7 +6,7 @@ import DashboardHeader from "@/components/features/dashboard/DashboardHeader";
 
 /**
  * Dashboard shell — server component that gates all /dashboard/* routes.
- * Fetches session + org data once here so child pages don't repeat the lookup.
+ * Fetches session, org data, and alerts in one pass so child pages don't repeat lookups.
  * Auth is double-checked here as a second line of defence after middleware.
  */
 export default async function DashboardLayout({
@@ -19,7 +19,13 @@ export default async function DashboardLayout({
 
   const membership = await db.organizationMember.findFirst({
     where: { userId: session.user.id },
-    include: { organization: true },
+    include: {
+      organization: {
+        include: {
+          alerts: { orderBy: { createdAt: "desc" }, take: 50 },
+        },
+      },
+    },
   });
 
   // New users without an org get sent to onboarding
@@ -27,12 +33,19 @@ export default async function DashboardLayout({
 
   const orgName = membership?.organization.name ?? "Ledger";
   const userName = session.user.name ?? session.user.email ?? "User";
+  const alerts = membership?.organization.alerts ?? [];
+  const unreadCount = alerts.filter((a) => !a.read).length;
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#f9f9f9]">
       <Sidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
-        <DashboardHeader userName={userName} orgName={orgName} />
+        <DashboardHeader
+          userName={userName}
+          orgName={orgName}
+          alerts={alerts}
+          unreadCount={unreadCount}
+        />
         <main className="flex-1 overflow-y-auto p-6">{children}</main>
       </div>
     </div>

@@ -3,18 +3,34 @@
 import { signOut } from "next-auth/react";
 import { LogOut, User } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import NotificationDropdown from "@/components/features/alerts/NotificationDropdown";
+
+interface Alert {
+  id: string;
+  type: string;
+  asset: string | null;
+  message: string;
+  read: boolean;
+  createdAt: Date;
+}
 
 interface DashboardHeaderProps {
   userName: string;
   orgName: string;
+  alerts: Alert[];
+  unreadCount: number;
 }
 
 /**
  * Dashboard top header bar.
- * Shows the current org name and a user menu with sign-out.
- * Alerts bell will be wired here in Epic 7.
+ * Shows org name, notification bell (with unread badge), and user menu.
  */
-export default function DashboardHeader({ userName, orgName }: DashboardHeaderProps) {
+export default function DashboardHeader({
+  userName,
+  orgName,
+  alerts,
+  unreadCount,
+}: DashboardHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -34,7 +50,10 @@ export default function DashboardHeader({ userName, orgName }: DashboardHeaderPr
       <p className="text-sm font-medium text-foreground">{orgName}</p>
 
       <div className="flex items-center gap-3">
-        {/* Alerts bell — Epic 7 */}
+        {/* Notification bell */}
+        <NotificationDropdown alerts={alerts} unreadCount={unreadCount} />
+
+        {/* User menu */}
         <div className="relative" ref={menuRef}>
           <button
             onClick={() => setMenuOpen((o) => !o)}
@@ -47,7 +66,9 @@ export default function DashboardHeader({ userName, orgName }: DashboardHeaderPr
           {menuOpen && (
             <div className="absolute right-0 top-10 z-50 w-52 rounded-xl border border-border bg-white p-1.5 shadow-md">
               <div className="px-3 py-2">
-                <p className="text-xs font-medium text-foreground truncate">{userName}</p>
+                <p className="truncate text-xs font-medium text-foreground">
+                  {userName}
+                </p>
               </div>
               <div className="my-1 h-px bg-border" />
               <button

@@ -60,6 +60,34 @@ export async function signupAction(
     await tx.organizationMember.create({
       data: { userId: user.id, organizationId: org.id, role: "owner" },
     });
+
+    // Seed demo alerts so notification center is non-empty on first login
+    await tx.alert.createMany({
+      data: [
+        {
+          organizationId: org.id,
+          type: "volatility_spike",
+          asset: "USDC/GBP",
+          message:
+            "USDC/GBP volatility spiked above threshold — consider delaying GBP conversions.",
+        },
+        {
+          organizationId: org.id,
+          type: "rate_threshold",
+          asset: "USDC/EUR",
+          message:
+            "USDC/EUR dropped below 0.92. Your configured alert threshold was crossed.",
+        },
+        {
+          organizationId: org.id,
+          type: "tx_confirmed",
+          asset: "USDC",
+          message:
+            "Welcome to Ledger. Your sandbox wallet is funded with 10,000 USDC.",
+          read: true,
+        },
+      ],
+    });
   });
 
   // Sign in and redirect — Auth.js throws NEXT_REDIRECT internally
